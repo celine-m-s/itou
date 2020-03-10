@@ -10,15 +10,17 @@ install:
 # script:
 #   - echo "🧪 PR En cours"
 
+env:
+  global:
+    - ORGANIZATION_NAME=Miimosa
+    - APP_NAME=itou-celinems
+    - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
+
 
 after_success:
   - echo "🎉 Success!"
 
 # clever published-config set <variable-name> <variable-value>
-env:
-  - ORGANIZATION_NAME=Miimosa
-  - APP_NAME=itou-celinems
-  - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
 
 # - stage: test
 #   script:
@@ -26,6 +28,8 @@ env:
 #     - make test
 jobs:
   allow_failures:
+    stage: delete-review-app
+  include:
     - stage: delete-review-app
       if: branch != master
       script:
@@ -34,7 +38,6 @@ jobs:
         - ./clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         - ./clever link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
         - ./clever delete --yes
-  include:
     - stage: create-review-app
       if: branch != master
       script:
