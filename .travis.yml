@@ -14,12 +14,16 @@ install:
 after_success:
   - echo "🎉 Success!"
 
-  # clever published-config set <variable-name> <variable-value>
+# clever published-config set <variable-name> <variable-value>
 env:
   - ORGANIZATION_NAME=Miimosa
   - APP_NAME=itou-celinems
   - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
 
+# - stage: test
+#   script:
+#     - echo "🧪 PR En cours"
+#     - make test
 jobs:
   allow_failures:
     - stage: delete-review-app
@@ -31,12 +35,7 @@ jobs:
         - ./clever link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
         - ./clever delete --yes
   include:
-    # - stage: test
-    #   script:
-    #     - echo "🧪 PR En cours"
-    #     - make test
     - stage: create-review-app
-
       if: branch != master
       script:
         - echo "🛸 Build disposable staging"
