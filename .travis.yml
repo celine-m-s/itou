@@ -7,6 +7,7 @@ services:
 # If PR, create a review app.
 install:
   - echo "⏳ Install phase"
+  - touch $TRAVIS_BUILD_DIR/envs/dev.env
   - make run
 # script:
 #   - echo "🧪 PR En cours"
