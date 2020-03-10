@@ -47,10 +47,14 @@ jobs:
         - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz
         - tar -xvf clever-tools-latest_linux.tar.gz
         - ./clever-tools-latest_linux/clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
-        - ./clever-tools-latest_linux/clever create $REVIEW_APP_NAME -t node --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
+        - ./clever-tools-latest_linux/clever create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         - ./clever-tools-latest_linux/clever domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        - ./clever-tools-latest_linux/clever scale --flavor S --alias $REVIEW_APP_NAME
-        - ./clever-tools-latest_linux/clever deploy
+        # - ./clever-tools-latest_linux/clever scale --flavor S --alias $REVIEW_APP_NAME
+        # Get the deploy url
+        - export DEPLOY_URL=$(cat .clever.json | grep -Po '(?<="deploy_url":)(.*?)(?=,)')
+        - git remote add clever $DEPLOY_URL
+        - git push clever $TRAVIS_BRANCH:master
+        # - ./clever-tools-latest_linux/clever deploy
     # - stage: destroy-review-app
     #   script: echo "EXTERMINATE!"
 
