@@ -6,7 +6,7 @@ services:
 
 # If PR, create a review app.
 install:
-  - ' echo "⏳ Install phase'
+  - echo "⏳ Install phase"
   - make run
 # script:
 #   - echo "🧪 PR En cours"
