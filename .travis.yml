@@ -1,8 +1,5 @@
-services:
-  - docker
-
-# If Master, CD to production app.
-# NOT IMPLEMENTED
+# services:
+#   - docker
 
 # If PR, create a review app.
 install:
@@ -34,6 +31,8 @@ jobs:
       if: branch != master
       script:
         - echo "🛸 Build disposable staging"
+        - echo $REVIEW_APP_NAME
+        - echo $TRAVIS_BRANCH
         - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz
         - tar -xvf clever-tools-latest_linux.tar.gz
         - ./clever-tools-latest_linux/clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
