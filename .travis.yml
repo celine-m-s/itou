@@ -34,12 +34,12 @@ jobs:
       script:
         - >
           echo "🛸 Build disposable staging"
-        - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz && \
-          tar -xvf clever-tools-latest_linux.tar.gz && \
-          ./clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET && \
-          ./clever create $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG -t node --org $ORGANIZATION_NAME --region par --alias $APP_NAME-$CI_COMMIT_REF_SLUG && \
-          ./clever domain add $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG.cleverapps.io --alias $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG && \
-          ./clever scale --flavor S --alias $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG && \
+        - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz &&
+          tar -xvf clever-tools-latest_linux.tar.gz &&
+          ./clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET &&
+          ./clever create $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG -t node --org $ORGANIZATION_NAME --region par --alias $APP_NAME-$CI_COMMIT_REF_SLUG &&
+          ./clever domain add $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG.cleverapps.io --alias $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG &&
+          ./clever scale --flavor S --alias $APP_NAME-$TRAVIS_PULL_REQUEST_SLUG &&
           ./clever deploy
     # - stage: destroy-review-app
     #   script: echo "EXTERMINATE!"
