@@ -22,13 +22,14 @@ after_success:
 
 jobs:
   include:
-    - stage: test
-      script:
-        - echo "🧪 PR En cours"
-        - make test
+    # - stage: test
+    #   script:
+    #     - echo "🧪 PR En cours"
+    #     - make test
     - stage: create-review-app
-      if: branch != master
+      if: [ "$TRAVIS_PULL_REQUEST" != "false" ]
       script: 🛸 Build disposable staging"
+      manual: true
     - stage: destroy-review-app
       script: echo "EXTERMINATE!"
 
