@@ -32,7 +32,7 @@ jobs:
         - APP_NAME=itou-celinems
       if: branch != master
       script:
-        - "🛸 Build disposable staging"
+        - echo "🛸 Build disposable staging"
         - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz
         - tar -xvf clever-tools-latest_linux.tar.gz
         - ./clever login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
