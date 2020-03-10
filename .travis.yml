@@ -24,7 +24,7 @@ jobs:
   include:
     # - stage: test
     #   script:
-    #     - echo "🧪 PR En cours"
+    #     - echo "🧪 PR En cours  "
     #     - make test
     - stage: create-review-app
       if: [ "$TRAVIS_PULL_REQUEST" != "false" ]
