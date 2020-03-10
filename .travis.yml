@@ -24,10 +24,10 @@ jobs:
   include:
     # - stage: test
     #   script:
-    #     - echo "🧪 PR En cours  "
+    #     - echo "🧪 PR En cours"
     #     - make test
     - stage: create-review-app
-      if: [ "$TRAVIS_PULL_REQUEST" != "false" ]
+      if: branch != master
       script: 🛸 Build disposable staging"
       manual: true
     - stage: destroy-review-app
