@@ -8,6 +8,7 @@ services:
 install:
   - echo "⏳ Install phase"
   - touch $TRAVIS_BUILD_DIR/envs/dev.env
+  - touch $TRAVIS_BUILD_DIR/envs/secrets.env
   - make run
 # script:
 #   - echo "🧪 PR En cours"
