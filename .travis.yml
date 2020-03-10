@@ -27,7 +27,7 @@ jobs:
       env:
         - ORGANIZATION_NAME=Miimosa
         - APP_NAME=itou-celinems
-        - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_PULL_REQUEST_SLUG
+        - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
       if: branch != master
       script:
         - echo "🛸 Build disposable staging"
