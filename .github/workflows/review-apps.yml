@@ -87,10 +87,10 @@ jobs:
         $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch travis
 
 
-    - name: Comment PR
-      uses: thollander/actions-comment-pull-request@master
-      with:
-        message: 'Example of message !'
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Comment PR
+    #   uses: thollander/actions-comment-pull-request@master
+    #   with:
+    #     message: 'Example of message !'
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
