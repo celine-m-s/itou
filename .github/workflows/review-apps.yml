@@ -88,8 +88,8 @@ jobs:
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
 
         echo 'git status'
-        git status
-        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --verbose
+        git rm -r --cached .
+        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH --force --verbose
 
 
     # - name: Comment PR
