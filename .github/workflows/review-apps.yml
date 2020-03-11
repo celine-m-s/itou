@@ -87,7 +87,9 @@ jobs:
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
 
-        echo 'git status'
+        git config user.email "celine@mail.com"
+        git config user.name "Celine MS"
+
         git add .clever.json && git commit -m "Add clever file"
         $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH --force --verbose
 
