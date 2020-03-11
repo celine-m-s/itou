@@ -80,8 +80,15 @@ jobs:
         $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import
+        echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
         echo 'BRANCH'
         echo $BRANCH
-        $CLEVER_CLI --branch $BRANCH deploy
+        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH
+
+    - name: Comment PR
+      uses: thollander/actions-comment-pull-request@master
+      with:
+        message: 'Example of message !'
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
