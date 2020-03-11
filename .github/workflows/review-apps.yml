@@ -88,7 +88,7 @@ jobs:
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
 
         echo 'git status'
-        git rm -r --cached .
+        git add .clever.json && git commit -m "Add clever file"
         $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH --force --verbose
 
 
