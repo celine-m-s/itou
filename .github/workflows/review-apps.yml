@@ -73,6 +73,8 @@ jobs:
     if: always()
 
     steps:
+    - uses: actions/checkout@v2
+
     - name: Create review app
       run: |
         curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz
