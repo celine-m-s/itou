@@ -87,7 +87,17 @@ jobs:
         # replace by clever env import-vars FOO,BAR,BAZ
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
 
-        $CLEVER_CLI deploy --verbose
+        # Try This
+        # echo $SECRETS_FILE | base64 -d > cc.env
+        # source cc.env
+        # clever env import-vars
+
+        export DEPLOY_URL=$(cat .clever.json | grep -Po '(?<="deploy_url":)(.*?)(?=,)' | tr -d '"')
+        echo "DEPLOY_URL"
+        echo $DEPLOY_URL
+        git remote add clever $DEPLOY_URL
+        git push clever travis:master
+        # $CLEVER_CLI deploy --branch $BRANCH --force --verbose
 
 
     # - name: Comment PR
