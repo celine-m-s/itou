@@ -89,7 +89,7 @@ jobs:
 
         echo 'git status'
         git status
-        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH --force --verbose
+        $CLEVER_CLI deploy --verbose
 
 
     # - name: Comment PR
