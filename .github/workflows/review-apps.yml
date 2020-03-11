@@ -79,8 +79,6 @@ jobs:
         $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        touch ./envs/cc.env
-        echo $SECRETS_FILE | base64 -d > ./envs/cc.env
-        cat ./env/cc.env | $CLEVER_CLI published-config import
+        echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import
         $CLEVER_CLI --branch ${{ github.head_ref }} deploy
 
