@@ -87,8 +87,8 @@ jobs:
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
 
-        echo 'LS'
-        ls -a
+        echo 'git status'
+        git status
         $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH --force --verbose
 
 
