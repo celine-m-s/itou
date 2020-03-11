@@ -1,53 +1,53 @@
-# services:
-#   - docker
+# # services:
+# #   - docker
 
-install:
-  - echo "⏳ Install phase"
-  # - touch $TRAVIS_BUILD_DIR/envs/dev.env
-  # - touch $TRAVIS_BUILD_DIR/envs/secrets.env
-  # - make run
-# script:
-#   - echo "🧪 PR En cours"
+# install:
+#   - echo "⏳ Install phase"
+#   # - touch $TRAVIS_BUILD_DIR/envs/dev.env
+#   # - touch $TRAVIS_BUILD_DIR/envs/secrets.env
+#   # - make run
+# # script:
+# #   - echo "🧪 PR En cours"
 
-env:
-  global:
-    - ORGANIZATION_NAME=Miimosa
-    - APP_NAME=itou-celinems
-    - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
-    - CLEVER_DIR=clever-tools-latest_linux
-    - CLEVER_CLI=./clever-tools-latest_linux/clever
+# env:
+#   global:
+#     - ORGANIZATION_NAME=Miimosa
+#     - APP_NAME=itou-celinems
+#     - REVIEW_APP_NAME=$APP_NAME-$TRAVIS_BRANCH
+#     - CLEVER_DIR=clever-tools-latest_linux
+#     - CLEVER_CLI=./clever-tools-latest_linux/clever
 
 
-after_success:
-  - echo "🎉 Success!"
+# after_success:
+#   - echo "🎉 Success!"
 
-#
+# #
 
-# - stage: test
-#   script:
-#     - echo "🧪 PR En cours"
-#     - make test
-jobs:
-  allow_failures:
-    stage: delete-review-app
-  include:
-    - stage: delete-review-app
-      if: branch != master
-      script:
-        - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/$CLEVER_DIR.tar.gz > $CLEVER_DIR.tar.gz
-        - tar -xvf $CLEVER_DIR.tar.gz
-        - $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
-        - $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
-        - $CLEVER_CLI delete --yes
-    - stage: create-review-app
-      if: branch != master
-      script:
-        - echo "🛸 Build disposable staging"
-        - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/$CLEVER_DIR.tar.gz > $CLEVER_DIR.tar.gz
-        - tar -xvf $CLEVER_DIR.tar.gz
-        - $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
-        - $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
-        - $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        - $CLEVER_CLI published-config set <variable-name> <variable-value>
-        - $CLEVER_CLI --branch $TRAVIS_BRANCH deploy
+# # - stage: test
+# #   script:
+# #     - echo "🧪 PR En cours"
+# #     - make test
+# jobs:
+#   allow_failures:
+#     stage: delete-review-app
+#   include:
+#     - stage: delete-review-app
+#       if: branch != master
+#       script:
+#         - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/$CLEVER_DIR.tar.gz > $CLEVER_DIR.tar.gz
+#         - tar -xvf $CLEVER_DIR.tar.gz
+#         - $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
+#         - $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
+#         - $CLEVER_CLI delete --yes
+#     - stage: create-review-app
+#       if: branch != master
+#       script:
+#         - echo "🛸 Build disposable staging"
+#         - curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/$CLEVER_DIR.tar.gz > $CLEVER_DIR.tar.gz
+#         - tar -xvf $CLEVER_DIR.tar.gz
+#         - $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
+#         - $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
+#         - $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
+#         - $CLEVER_CLI published-config set <variable-name> <variable-value>
+#         - $CLEVER_CLI --branch $TRAVIS_BRANCH deploy
 
