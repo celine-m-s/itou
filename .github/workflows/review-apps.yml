@@ -1,33 +1,61 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Review apps
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  build:
-    env:
-      APP_NAME: itou-celinems
-      CLEVER_CLI: ./clever-tools-latest_linux/clever
-      CLEVER_DIR: clever-tools-latest_linux
-      ORGANIZATION_NAME: Miimosa
-      REVIEW_APP_NAME: $APP_NAME-$TRAVIS_BRANCH
+env:
+  CLEVER_DIR: clever-tools-latest_linux
+  CLEVER_CLI: clever-tools-latest_linux/clever
+  ORGANIZATION_NAME: Miimosa
+  REVIEW_APP_NAME: itou-celinems-${{ github.head_ref }}
+  CLEVER_TOKEN: ${{ secrets.CLEVER_TOKEN }}
+  CLEVER_SECRET: ${{ secrets.CLEVER_SECRET }}
 
-    # The type of runner that the job will run on
+
+jobs:
+  # IMPROVEMENT:
+  # https://github.com/actions/upload-artifact
+  # https://github.com/actions/download-artifact
+
+  # download-cc-binaries:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - uses: actions/checkout@v2
+
+  #     - run: mkdir -p clever_cloud_binaries
+
+  #     - name: Download CC binaries
+  #       run: |
+  #         curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > $CLEVER_DIR.tar.gz
+  #         tar -xvf $CLEVER_DIR.tar.gz
+
+  #     - uses: actions/upload-artifact@v1
+  #       with:
+  #         name: clever_cloud_binaries
+  #         path: clever_cloud_binaries
+
+  delete-review-app:
+    # needs: download-cc-binaries
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+
+    # - uses: actions/download-artifact@v1
+    #   with:
+    #     name: $CLEVER_DIR
+
+    - name: Connect to Clever Cloud
+      run: |
+        curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > $CLEVER_DIR.tar.gz
+        tar -xvf $CLEVER_DIR.tar.gz
+        $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
 
     - name: Delete review app
       run: |
@@ -37,15 +65,21 @@ jobs:
         $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
         $CLEVER_CLI delete --yes
 
-    # Runs a set of commands using the runners shell
+
+
+  create-review-app:
+    runs-on: ubuntu-latest
+    needs: delete-review-app
+    if: always()
+
+    steps:
     - name: Create review app
       run: |
-        echo "🛸 Build disposable staging"
-        curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/$CLEVER_DIR.tar.gz > $CLEVER_DIR.tar.gz
-        tar -xvf $CLEVER_DIR.tar.gz
+        curl https://clever-tools.cellar.services.clever-cloud.com/releases/latest/clever-tools-latest_linux.tar.gz > clever-tools-latest_linux.tar.gz
+        tar -xvf clever-tools-latest_linux.tar.gz
         $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        $CLEVER_CLI published-config set <variable-name> <variable-value>
-        $CLEVER_CLI --branch $TRAVIS_BRANCH deploy
+        # $CLEVER_CLI published-config set <variable-name> <variable-value>
+        # $CLEVER_CLI --branch $TRAVIS_BRANCH deploy
 
