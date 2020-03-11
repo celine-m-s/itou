@@ -83,7 +83,7 @@ jobs:
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import --alias $REVIEW_APP_NAME
         echo 'BRANCH'
         echo $BRANCH
-        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch $BRANCH
+        $CLEVER_CLI deploy --alias $REVIEW_APP_NAME --branch travis
 
     - name: Comment PR
       uses: thollander/actions-comment-pull-request@master
