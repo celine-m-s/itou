@@ -78,6 +78,6 @@ jobs:
         $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
-        # $CLEVER_CLI published-config set <variable-name> <variable-value>
-        # $CLEVER_CLI --branch $TRAVIS_BRANCH deploy
+        printenv | $CLEVER_CLI published-config import
+        $CLEVER_CLI --branch ${{ github.head_ref }} deploy
 
