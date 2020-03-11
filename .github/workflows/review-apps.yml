@@ -81,5 +81,7 @@ jobs:
         $CLEVER_CLI create $REVIEW_APP_NAME -t docker --org $ORGANIZATION_NAME --region par --alias $REVIEW_APP_NAME
         $CLEVER_CLI domain add $REVIEW_APP_NAME.cleverapps.io --alias $REVIEW_APP_NAME
         echo $SECRETS_FILE | base64 -d | $CLEVER_CLI published-config import
+        echo 'BRANCH'
+        echo $BRANCH
         $CLEVER_CLI --branch $BRANCH deploy
 
