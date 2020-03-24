@@ -5,7 +5,7 @@ from django.db import migrations
 
 class Migration(migrations.Migration):
 
-    dependencies = [("jobs", "0001_initial")]
+    dependencies = [("jobs", "0002_create_unaccent")]
 
     operations = [
         migrations.RunSQL(

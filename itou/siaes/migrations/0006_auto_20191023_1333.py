@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ("jobs", "0002_create_full_text_trigger"),
+        ("jobs", "0003_create_full_text_trigger"),
         ("siaes", "0005_copy_data"),
     ]
 

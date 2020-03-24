@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
     """
 
     dependencies = [
-        ("jobs", "0002_create_full_text_trigger"),
+        ("jobs", "0003_create_full_text_trigger"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ("siaes", "0003_siaejobdescription_updated_at"),
     ]
