@@ -12,6 +12,7 @@ class Migration(migrations.Migration):
     operations = [
         migrations.RunSQL(
             sql="""
+                DROP TEXT SEARCH CONFIGURATION IF EXISTS french_unaccent;
                 CREATE TEXT SEARCH CONFIGURATION french_unaccent ( COPY = french );
                 ALTER TEXT SEARCH CONFIGURATION french_unaccent
                   ALTER MAPPING FOR hword, hword_part, word
