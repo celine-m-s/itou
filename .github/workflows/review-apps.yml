@@ -61,7 +61,7 @@ jobs:
 
   create:
     runs-on: ubuntu-latest
-    needs: delete-review-app
+    needs: delete
     # if: (github.event.pull_request.state == 'open')
     if: always()
 
