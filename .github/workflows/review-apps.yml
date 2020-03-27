@@ -37,7 +37,7 @@ jobs:
       run: echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
 
     - name: Echo deploy url
-      run: echo $($DEPLOY_URL)
+      run: echo $DEPLOY_URL
 
   #   - name: Link application
   #     run: |
