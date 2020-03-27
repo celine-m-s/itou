@@ -72,12 +72,9 @@ jobs:
 
     # - run: git fetch --prune --unshallow
 
-    - name: Set review app name
-      run:
+    - name: Set environment variables
+      run: |
         echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
-
-    - name: Set deploy url
-      run:
         echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io" | sed -r 's/_/-/g')
 
     # - name: Create review app
@@ -136,7 +133,7 @@ jobs:
     - name: Add link to pull request
       uses: thollander/actions-comment-pull-request@master
       with:
-        message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !](${{ env.DEPLOY_URL }})"
+        message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !](https://${{ env.DEPLOY_URL }})"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       # env:
       #   DEPLOY_URL: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
