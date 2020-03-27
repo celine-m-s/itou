@@ -22,8 +22,6 @@ env:
   SECRETS_FILE: ${{ secrets.SECRETS_FILE }}
   POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
   POSTGRESQL_ADDON_USER: ${{ secrets.POSTGRESQL_ADDON_USER }}
-  # REVIEW_APP_NAME: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/_/g; $ s/.$//')
-  # DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
 
 jobs:
   # delete-review-app:
@@ -36,15 +34,15 @@ jobs:
   #   - name: Set review app name
   #     run: echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
 
+    # - name: Set DB name
+    #   run: echo ::set-env name=REVIEW_APP_DB_NAME::$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
+
     # - name: Link application
     #   run: |
     #     curl $CLEVER_DOWNLOAD_URL > $CLEVER_TAR_FILE
     #     tar -xvf $CLEVER_TAR_FILE
     #     $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
     #     $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
-
-    # - name: Set DB name
-    #   run: echo ::set-env name=REVIEW_APP_DB_NAME::$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
 
     # - name: Delete review app database
     #   run: |
@@ -72,11 +70,22 @@ jobs:
 
     # - run: git fetch --prune --unshallow
 
-    - name: Set environment variables
-      run: |
+    # Environment variables
+    - name: Set review app name
+      run:
         echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
-        echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io" | sed -r 's/_/-/g')
 
+    - name: Set database name
+      run: echo ::set-env name=REVIEW_APP_DB_NAME::$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
+
+    - name: Set deploy url
+      run:
+        echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io")
+
+
+    # End of environment variables
+
+    # Creating the review app
     # - name: Create review app
     #   run: |
     #     curl curl $CLEVER_DOWNLOAD_URL > $CLEVER_TAR_FILE
@@ -91,8 +100,6 @@ jobs:
     #     $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
     #     $CLEVER_CLI service link-addon $DB_ADDON
 
-    # - name: Set DB name
-    #   run: echo ::set-env name=REVIEW_APP_DB_NAME::$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
 
     # - name: Create database
     #   run: |
