@@ -23,7 +23,7 @@ env:
   POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
   POSTGRESQL_ADDON_USER: ${{ secrets.POSTGRESQL_ADDON_USER }}
   # REVIEW_APP_NAME: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/_/g; $ s/.$//')
-  DEPLOY_URL: $(echo $REVIEW_APP_NAME.cleverapps.io)
+  DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
 
 jobs:
   delete-review-app:
