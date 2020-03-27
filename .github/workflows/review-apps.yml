@@ -26,15 +26,15 @@ env:
   # DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
 
 jobs:
-  delete-review-app:
-    runs-on: ubuntu-latest
-    if: contains( github.event.pull_request.labels.*.name, 'review-app')
+  # delete-review-app:
+  #   runs-on: ubuntu-latest
+  #   if: contains( github.event.pull_request.labels.*.name, 'review-app')
 
-    steps:
-    - uses: actions/checkout@v2
+  #   steps:
+  #   - uses: actions/checkout@v2
 
-    - name: Set review app name
-      run: echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
+  #   - name: Set review app name
+  #     run: echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
 
     # - name: Link application
     #   run: |
@@ -61,7 +61,7 @@ jobs:
 
   create-review-app:
     runs-on: ubuntu-latest
-    needs: delete-review-app
+    # needs: delete-review-app
     # if: (github.event.pull_request.state == 'open')
     if: always()
 
@@ -76,9 +76,9 @@ jobs:
       run:
         echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
 
-    # - name: Set deploy url
-    #   run:
-    #     echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io" | sed -r 's/_/-/g')
+    - name: Set deploy url
+      run:
+        echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io" | sed -r 's/_/-/g')
 
     # - name: Create review app
     #   run: |
@@ -138,5 +138,5 @@ jobs:
       with:
         message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !](${{ env.DEPLOY_URL }})"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      env:
-        DEPLOY_URL: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
+      # env:
+      #   DEPLOY_URL: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
