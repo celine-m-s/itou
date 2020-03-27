@@ -39,14 +39,14 @@ jobs:
       run:
         echo ::set-env name=REVIEW_APP_DB_NAME::$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
 
-    - name: 🤝 Link application
+    - name: 🤝 Try to find the application on Clever Cloud
       run: |
         curl $CLEVER_DOWNLOAD_URL > $CLEVER_TAR_FILE
         tar -xvf $CLEVER_TAR_FILE
         $CLEVER_CLI login --token $CLEVER_TOKEN --secret $CLEVER_SECRET
         $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
 
-    - name: 🔪 Delete review app database
+    - name: 🔪 Delete the review app database
       run: |
         echo "Deleting database $REVIEW_APP_DB_NAME"
         psql -v ON_ERROR_STOP=1 $POSTGRESQL_ADDON_URI <<-EOSQL
@@ -54,7 +54,7 @@ jobs:
         EOSQL
         echo "Database deleted successfully!"
 
-    - name: 🔪 Delete review app
+    - name: 🔪 Delete the review app
       run: |
         $CLEVER_CLI delete --yes
 
@@ -86,7 +86,7 @@ jobs:
         echo ::set-env name=DEPLOY_URL::$(echo "$REVIEW_APP_NAME.cleverapps.io")
     # End of environment variables
 
-    - name: 🧫 Create review app
+    - name: 🧫 Create a review app on Clever Cloud
       run: |
         curl curl $CLEVER_DOWNLOAD_URL > $CLEVER_TAR_FILE
         tar -xvf $CLEVER_TAR_FILE
@@ -101,7 +101,7 @@ jobs:
         $CLEVER_CLI service link-addon $DB_ADDON
 
 
-    - name: 🗃 Create database
+    - name: 🗃 Create a brand new database
       run: |
         echo "Creating database $REVIEW_APP_DB_NAME"
         psql -v ON_ERROR_STOP=1 $POSTGRESQL_ADDON_URI <<-EOSQL
@@ -110,11 +110,11 @@ jobs:
         echo "Database created successfully!"
         # $CLEVER_CLI addon create postgresql-addon $REVIEW_APP_NAME-db --region eu --link $REVIEW_APP_NAME --yes --org $ORGANIZATION_NAME
 
-    - name: 🗺 Export environment variables
+    - name: 🗺 Add environment variables to the review app
       run: |
         $CLEVER_CLI link $REVIEW_APP_NAME --org $ORGANIZATION_NAME
         $CLEVER_CLI service link-addon $CONFIGURATION_ADDON
-        export REVIEW_APP_DB_NAME=$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
+        # export REVIEW_APP_DB_NAME=$(echo $REVIEW_APP_NAME | sed -r 's/-/_/g')
         $CLEVER_CLI env import-vars REVIEW_APP_DB_NAME
         # echo $SECRETS_FILE | base64 -d > .env
         # Export variables. Source does not work.
