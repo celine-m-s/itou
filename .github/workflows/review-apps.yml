@@ -23,7 +23,7 @@ env:
   POSTGRESQL_ADDON_URI: ${{ secrets.POSTGRESQL_ADDON_URI }}
   POSTGRESQL_ADDON_USER: ${{ secrets.POSTGRESQL_ADDON_USER }}
   # REVIEW_APP_NAME: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/_/g; $ s/.$//')
-  DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
+  # DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
 
 jobs:
   delete-review-app:
@@ -66,11 +66,11 @@ jobs:
     if: always()
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.head_ref }}
+    # - uses: actions/checkout@v2
+    #   with:
+    #     ref: ${{ github.head_ref }}
 
-    - run: git fetch --prune --unshallow
+    # - run: git fetch --prune --unshallow
 
     - name: Set review app name
       run:
@@ -139,4 +139,4 @@ jobs:
         message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !](${{ env.DEPLOY_URL }})"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       env:
-        DEPLOY_URL: $REVIEW_APP_NAME.cleverapps.io
+        DEPLOY_URL: $(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
