@@ -29,7 +29,8 @@ jobs:
     if: contains( github.event.pull_request.labels.*.name, 'review-app')
 
     steps:
-    - uses: actions/checkout@v2
+    - name: 📥 Checkout to the PR branch
+      uses: actions/checkout@v2
 
     - name: 🏷 Set review app name
       run:
@@ -66,11 +67,13 @@ jobs:
     if: always()
 
     steps:
-    - uses: actions/checkout@v2
+    - name: 📥 Checkout to the PR branch
+      uses: actions/checkout@v2
       with:
         ref: ${{ github.head_ref }}
 
-    - run: 📥 git fetch --prune --unshallow
+    - name: 📥 Fetch git branches
+      run: git fetch --prune --unshallow
 
     # Environment variables
     - name: 🏷 Set review app name
