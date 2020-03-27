@@ -33,7 +33,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set review app name
-      run: echo ::set-env name=REVIEW_APP_NAME::$CREATE_REVIEW_APP_NAME
+      run: echo ::set-env name=REVIEW_APP_NAME::$(CREATE_REVIEW_APP_NAME)
 
     - name: Link application
       run: |
