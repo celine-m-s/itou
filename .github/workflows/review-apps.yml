@@ -1,6 +1,3 @@
----
-review_app_regex: "$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/_/g; $ s/.$//')"
----
 # See https://developer.github.com/v3/
 # and https://help.github.com/en/actions
 name: Review apps
