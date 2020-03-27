@@ -137,3 +137,5 @@ jobs:
       with:
         message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !]($DEPLOY_URL)"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        DEPLOY_URL: $DEPLOY_URL
