@@ -100,7 +100,7 @@ jobs:
       run: |
         echo "Creating database $REVIEW_APP_DB_NAME"
         psql -v ON_ERROR_STOP=1 $POSTGRESQL_ADDON_URI <<-EOSQL
-          CREATE DATABASE $REVIEW_APP_DB_NAME WITH OWNER $POSTGRESQL_ADDON_USER;
+          CREATE DATABASE $REVIEW_APP_DB_NAME WITH OWNER $POSTGRESQL_ADDON_USER TEMPLATE template1;
         EOSQL
         echo "Database created successfully!"
         # $CLEVER_CLI addon create postgresql-addon $REVIEW_APP_NAME-db --region eu --link $REVIEW_APP_NAME --yes --org $ORGANIZATION_NAME
