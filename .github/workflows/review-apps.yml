@@ -36,6 +36,9 @@ jobs:
     - name: Set review app name
       run: echo ::set-env name=REVIEW_APP_NAME::$(echo "review_$BRANCH" | sed -r 's/[-;\\/.]+/-/g')
 
+    - name: Echo deploy url
+      run: echo $DEPLOY_URL
+
     - name: Link application
       run: |
         curl $CLEVER_DOWNLOAD_URL > $CLEVER_TAR_FILE
