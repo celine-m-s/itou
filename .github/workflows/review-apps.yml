@@ -135,5 +135,5 @@ jobs:
     - name: Add link to pull request
       uses: thollander/actions-comment-pull-request@master
       with:
-        message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !](https://${{ env.REVIEW_APP_NAME }}.cleverapps.io)"
+        message: "🥁 L'environnement de test est prêt ! [👉 Je veux tester cette PR !]($DEPLOY_URL)"
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
